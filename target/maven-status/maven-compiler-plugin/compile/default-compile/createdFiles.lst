@@ -1,0 +1,7 @@
+com/fastkeycloak/otp/MultiChannelOTPAuthenticatorFactory.class
+com/fastkeycloak/otp/enums/OTPChannel.class
+com/fastkeycloak/otp/MultiChannelOTPAuthenticator$1.class
+com/fastkeycloak/otp/MultiChannelOTPAuthenticator.class
+com/fastkeycloak/otp/providers/EmailOTPProvider.class
+com/fastkeycloak/otp/OTPDeliveryProvider.class
+com/fastkeycloak/otp/providers/TwilioSMSProvider.class
