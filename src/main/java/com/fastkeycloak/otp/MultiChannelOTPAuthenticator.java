@@ -47,15 +47,30 @@ public class MultiChannelOTPAuthenticator implements Authenticator {
             
             logger.infof("Allow user choice: %s, Forced channel: %s", allowUserChoice, forcedChannel);
             
-            boolean hasMultiple = hasMultipleChannels(user, config.getConfig());
-            logger.infof("User has multiple channels available: %s", hasMultiple);
+            boolean hasEmail = user.getEmail() != null && !user.getEmail().trim().isEmpty();
+            boolean hasSMS = user.getFirstAttribute("phoneNumber") != null && new TwilioSMSProvider().isConfigured(config.getConfig());
+            boolean hasMultiple = hasEmail && hasSMS;
+            
+            logger.infof("Channel availability - Email: %s, SMS: %s, Multiple: %s", hasEmail, hasSMS, hasMultiple);
             
             if (allowUserChoice && forcedChannel == null && hasMultiple) {
                 logger.info("Showing channel selection form to user");
                 context.challenge(context.form().createForm(CHANNEL_SELECTION_FORM));
                 return;
             } else {
-                selectedChannel = forcedChannel != null ? forcedChannel : "email";
+                if (forcedChannel != null) {
+                    selectedChannel = forcedChannel;
+                } else if (hasEmail) {
+                    selectedChannel = "email";
+                } else if (hasSMS) {
+                    selectedChannel = "sms";
+                } else {
+                    logger.error("User has no available delivery channels configured");
+                    context.failureChallenge(AuthenticationFlowError.INVALID_USER,
+                        context.form().setError("noDeliveryChannels", "Please contact your administrator to configure email or phone number for OTP delivery.")
+                            .createErrorPage(Response.Status.BAD_REQUEST));
+                    return;
+                }
                 logger.infof("Auto-selected channel: %s", selectedChannel);
                 authSession.setAuthNote(AUTH_NOTE_CHANNEL, selectedChannel);
             }
@@ -187,17 +202,7 @@ public class MultiChannelOTPAuthenticator implements Authenticator {
     public void close() {
     }
 
-    private boolean hasMultipleChannels(UserModel user, Map<String, String> config) {
-        boolean hasEmail = user.getEmail() != null;
-        boolean hasSMS = user.getFirstAttribute("phoneNumber") != null && new TwilioSMSProvider().isConfigured(config);
-        
-        logger.infof("Channel availability - Email: %s (address: %s), SMS: %s (phone: %s, config: %s)", 
-            hasEmail, user.getEmail(), 
-            hasSMS, user.getFirstAttribute("phoneNumber"), 
-            new TwilioSMSProvider().isConfigured(config));
-            
-        return hasEmail && hasSMS;
-    }
+
 
     private OTPDeliveryProvider getProvider(String channel, AuthenticationFlowContext context) {
         OTPChannel otpChannel = OTPChannel.fromValue(channel);

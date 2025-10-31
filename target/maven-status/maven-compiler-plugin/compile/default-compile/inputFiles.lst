@@ -1,6 +1,6 @@
-/Users/andilemasela/projects/keycloak-email—sms-otp/src/main/java/com/fastkeycloak/otp/MultiChannelOTPAuthenticator.java
-/Users/andilemasela/projects/keycloak-email—sms-otp/src/main/java/com/fastkeycloak/otp/MultiChannelOTPAuthenticatorFactory.java
-/Users/andilemasela/projects/keycloak-email—sms-otp/src/main/java/com/fastkeycloak/otp/OTPDeliveryProvider.java
-/Users/andilemasela/projects/keycloak-email—sms-otp/src/main/java/com/fastkeycloak/otp/enums/OTPChannel.java
-/Users/andilemasela/projects/keycloak-email—sms-otp/src/main/java/com/fastkeycloak/otp/providers/EmailOTPProvider.java
-/Users/andilemasela/projects/keycloak-email—sms-otp/src/main/java/com/fastkeycloak/otp/providers/TwilioSMSProvider.java
+/Users/andilemasela/projects/keycloak-email-sms-otp/src/main/java/com/fastkeycloak/otp/MultiChannelOTPAuthenticator.java
+/Users/andilemasela/projects/keycloak-email-sms-otp/src/main/java/com/fastkeycloak/otp/MultiChannelOTPAuthenticatorFactory.java
+/Users/andilemasela/projects/keycloak-email-sms-otp/src/main/java/com/fastkeycloak/otp/OTPDeliveryProvider.java
+/Users/andilemasela/projects/keycloak-email-sms-otp/src/main/java/com/fastkeycloak/otp/enums/OTPChannel.java
+/Users/andilemasela/projects/keycloak-email-sms-otp/src/main/java/com/fastkeycloak/otp/providers/EmailOTPProvider.java
+/Users/andilemasela/projects/keycloak-email-sms-otp/src/main/java/com/fastkeycloak/otp/providers/TwilioSMSProvider.java

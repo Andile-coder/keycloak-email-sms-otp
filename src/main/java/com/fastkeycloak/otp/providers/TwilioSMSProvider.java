@@ -21,9 +21,9 @@ public class TwilioSMSProvider implements OTPDeliveryProvider {
     public void sendOTP(String code, UserModel user, Map<String, String> config) throws Exception {
         logger.infof("=== TwilioSMSProvider.sendOTP started for user: %s ===", user.getUsername());
         
-        String accountSid = config.get("twilioAccountSid");
-        String authToken = config.get("twilioAuthToken");
-        String fromNumber = config.get("twilioFromNumber");
+        String accountSid = getConfigValue(config, "twilioAccountSid", "TWILIO_ACCOUNT_SID");
+        String authToken = getConfigValue(config, "twilioAuthToken", "TWILIO_AUTH_TOKEN");
+        String fromNumber = getConfigValue(config, "twilioFromNumber", "TWILIO_FROM_NUMBER");
         String phoneNumber = user.getFirstAttribute("phoneNumber");
         
         logger.infof("Twilio config - AccountSID: %s, FromNumber: %s, User phone: %s", 
@@ -89,9 +89,17 @@ public class TwilioSMSProvider implements OTPDeliveryProvider {
 
     @Override
     public boolean isConfigured(Map<String, String> config) {
-        return config.containsKey("twilioAccountSid") && 
-               config.containsKey("twilioAuthToken") && 
-               config.containsKey("twilioFromNumber");
+        return getConfigValue(config, "twilioAccountSid", "TWILIO_ACCOUNT_SID") != null && 
+               getConfigValue(config, "twilioAuthToken", "TWILIO_AUTH_TOKEN") != null && 
+               getConfigValue(config, "twilioFromNumber", "TWILIO_FROM_NUMBER") != null;
+    }
+    
+    private String getConfigValue(Map<String, String> config, String configKey, String envKey) {
+        String value = config.get(configKey);
+        if (value == null || value.trim().isEmpty()) {
+            value = System.getenv(envKey);
+        }
+        return value;
     }
     
     private String normalizePhoneNumber(String phoneNumber, String countryCode) {
