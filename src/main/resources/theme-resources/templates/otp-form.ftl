@@ -3,26 +3,26 @@
     <#if section = "header">
         ${msg("enterCode")}
     <#elseif section = "form">
-        <form id="kc-otp-form" class="${properties.kcFormClass!}" action="${url.loginAction}" method="post">
-            <div class="${properties.kcFormGroupClass!}">
-                <div class="${properties.kcLabelWrapperClass!}">
-                    <label for="code" class="${properties.kcLabelClass!}">
-                        <#if channel?? && channel == "sms">
-                            ${msg("smsCodeLabel")}
-                        <#else>
-                            ${msg("emailCodeLabel")}
-                        </#if>
-                    </label>
-                </div>
-                <div class="${properties.kcInputWrapperClass!}">
-                    <input id="code" name="code" type="text" class="${properties.kcInputClass!}" 
-                           autocomplete="off" required autofocus/>
-                </div>
+        <div id="kc-form">
+            <div id="kc-form-wrapper">
+                <form id="kc-otp-form" action="${url.loginAction}" method="post">
+                    <div class="${properties.kcFormGroupClass!}">
+                        <label for="code" class="${properties.kcLabelClass!}">
+                            <#if channel?? && channel == "sms">
+                                ${msg("smsCodeLabel")}
+                            <#else>
+                                ${msg("emailCodeLabel")}
+                            </#if>
+                        </label>
+                        <input id="code" name="code" type="text" class="${properties.kcInputClass!}" 
+                               autocomplete="off" required autofocus/>
+                    </div>
+                    <div id="kc-form-buttons" class="${properties.kcFormGroupClass!}">
+                        <input class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!} ${properties.kcButtonBlockClass!} ${properties.kcButtonLargeClass!}" 
+                               type="submit" value="${msg("doSubmit")}"/>
+                    </div>
+                </form>
             </div>
-            <div class="${properties.kcFormGroupClass!}">
-                <input class="${properties.kcButtonClass!} ${properties.kcButtonPrimaryClass!}" 
-                       type="submit" value="${msg("doSubmit")}"/>
-            </div>
-        </form>
+        </div>
     </#if>
 </@layout.registrationLayout>
